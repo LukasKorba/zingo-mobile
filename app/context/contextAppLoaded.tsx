@@ -21,6 +21,7 @@ import {
   NetInfoType,
   BackgroundErrorType,
   ServerType,
+  AddressBookFileClass,
 } from '../AppState';
 import SnackbarType from '../AppState/types/SnackbarType';
 
@@ -90,6 +91,7 @@ export const defaultAppStateLoaded: AppStateLoaded = {
   addLastSnackbar: () => {},
   restartApp: () => {},
   someUnconfirmed: false,
+  addressBook: [] as AddressBookFileClass[],
 };
 
 export const ContextAppLoaded = React.createContext(defaultAppStateLoaded);

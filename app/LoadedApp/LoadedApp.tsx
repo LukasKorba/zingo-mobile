@@ -45,6 +45,7 @@ import {
   BackgroundType,
   TranslateType,
   ServerType,
+  AddressBookFileClass,
 } from '../AppState';
 import Utils from '../utils';
 import { ThemeType } from '../types';
@@ -59,6 +60,7 @@ import SnackbarType from '../AppState/types/SnackbarType';
 import { RPCSeedType } from '../rpc/types/RPCSeedType';
 import { Launching } from '../LoadingApp';
 import AddressBook from '../../components/AddressBook/AddressBook';
+import AddressBookFileImpl from '../../components/AddressBook/AddressBookFileImpl';
 
 const History = React.lazy(() => import('../../components/History'));
 const Send = React.lazy(() => import('../../components/Send'));
@@ -100,6 +102,7 @@ export default function LoadedApp(props: LoadedAppProps) {
   const [privacy, setPrivacy] = useState<boolean>(false);
   const [mode, setMode] = useState<'basic' | 'advanced'>('basic');
   const [background, setBackground] = useState<BackgroundType>({ batches: 0, date: 0 });
+  const [addressBook, setAddressBook] = useState<AddressBookFileClass[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const file = useMemo(
     () => ({
@@ -187,6 +190,11 @@ export default function LoadedApp(props: LoadedAppProps) {
           setBackground(backgroundJson);
         }
       }
+
+      // reading the address book
+      const ab = await AddressBookFileImpl.readAddressBook();
+      setAddressBook(ab);
+
       setLoading(false);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -220,6 +228,7 @@ export default function LoadedApp(props: LoadedAppProps) {
         mode={mode}
         background={background}
         readOnly={readOnly}
+        addressBook={addressBook}
       />
     );
   }
@@ -238,6 +247,7 @@ type LoadedAppClassProps = {
   mode: 'basic' | 'advanced';
   background: BackgroundType;
   readOnly: boolean;
+  addressBook: AddressBookFileClass[];
 };
 
 export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoaded> {
@@ -267,6 +277,7 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
       setBackgroundError: this.setBackgroundError,
       addLastSnackbar: this.addLastSnackbar,
       restartApp: this.navigateToLoadingApp,
+      addressBook: props.addressBook,
     };
 
     this.rpc = new RPC(
@@ -1093,6 +1104,10 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
     this.setState({ backgroundError: { title, error } });
   };
 
+  setAddressBook = (addressBook: AddressBookFileClass[]) => {
+    this.setState({ addressBook });
+  };
+
   addLastSnackbar = (snackbar: SnackbarType) => {
     const newSnackbars = this.state.snackbars;
     // if the last one is the same don't do anything.
@@ -1487,7 +1502,10 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
                   <Text>{translate('loading') as string}</Text>
                 </View>
               }>
-              <AddressBook closeModal={() => this.setState({ addressBookModalVisible: false })} />
+              <AddressBook
+                closeModal={() => this.setState({ addressBookModalVisible: false })}
+                setAddressBook={this.setAddressBook}
+              />
             </Suspense>
           </Modal>
 

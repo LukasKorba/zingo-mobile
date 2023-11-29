@@ -13,7 +13,7 @@ import { ThemeType } from '../app/types';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { I18n } from 'i18n-js';
 import { StackScreenProps } from '@react-navigation/stack';
-import { ServerType } from '../app/AppState';
+import { AddressBookFileClass, ServerType } from '../app/AppState';
 
 // Crea un mock para el constructor de I18n
 jest.mock('i18n-js', () => ({
@@ -126,6 +126,7 @@ describe('Component LoadedApp - test', () => {
       date: 0,
     };
     const readOnly = false;
+    const addressBook = [] as AddressBookFileClass[];
     const receive = render(
       <LoadedAppClass
         navigation={navigationMock}
@@ -140,6 +141,7 @@ describe('Component LoadedApp - test', () => {
         mode={mode}
         background={background}
         readOnly={readOnly}
+        addressBook={addressBook}
       />,
     );
     expect(receive.toJSON()).toMatchSnapshot();
