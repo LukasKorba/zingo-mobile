@@ -17,6 +17,7 @@ import { ContextAppLoaded } from '../../../app/context';
 import Header from '../../Header';
 import BoldText from '../../Components/BoldText';
 import CurrencyAmount from '../../Components/CurrencyAmount';
+import AddressItem from '../../Components/AddressItem';
 
 type TxDetailProps = {
   tx: TransactionType;
@@ -30,7 +31,6 @@ const TxDetail: React.FunctionComponent<TxDetailProps> = ({ tx, closeModal, set_
   const { colors } = useTheme() as unknown as ThemeType;
   const spendColor =
     tx.confirmations === 0 ? colors.primaryDisabled : tx.type === 'Received' ? colors.primary : colors.text;
-  const [expandAddress, setExpandAddress] = useState(false);
   const [expandTxid, setExpandTxid] = useState(false);
   moment.locale(language);
 
@@ -167,9 +167,6 @@ const TxDetail: React.FunctionComponent<TxDetailProps> = ({ tx, closeModal, set_
           )}
 
           {tx.txDetails.map((txd: TxDetailType) => {
-            // 30 characters per line
-            const numLines = txd.address ? (txd.address.length < 40 ? 2 : txd.address.length / 30) : 0;
-
             return (
               <View
                 key={txd.address + txd.pool}
@@ -180,33 +177,7 @@ const TxDetail: React.FunctionComponent<TxDetailProps> = ({ tx, closeModal, set_
                   borderTopColor: colors.text,
                   borderTopWidth: tx.txDetails.length > 1 ? 1 : 0,
                 }}>
-                {!!txd.address && (
-                  <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }}>
-                    <FadeText>{translate('history.address') as string}</FadeText>
-                    <TouchableOpacity
-                      onPress={() => {
-                        if (txd.address) {
-                          Clipboard.setString(txd.address);
-                          addLastSnackbar({
-                            message: translate('history.addresscopied') as string,
-                            type: 'Primary',
-                            duration: 'short',
-                          });
-                          setExpandAddress(true);
-                        }
-                      }}>
-                      <View style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
-                        {!txd.address && <RegText>{'Unknown'}</RegText>}
-                        {!expandAddress && !!txd.address && <RegText>{Utils.trimToSmall(txd.address, 10)}</RegText>}
-                        {expandAddress &&
-                          !!txd.address &&
-                          Utils.splitStringIntoChunks(txd.address, Number(numLines.toFixed(0))).map(
-                            (c: string, idx: number) => <RegText key={idx}>{c}</RegText>,
-                          )}
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )}
+                {!!txd.address && <AddressItem address={txd.address} />}
 
                 {!!txd.pool && (
                   <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }}>
