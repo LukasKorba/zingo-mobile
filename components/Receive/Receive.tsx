@@ -130,11 +130,11 @@ const Receive: React.FunctionComponent<ReceiveProps> = ({
     switch (route.key) {
       case 'uaddr': {
         let uaddr = translate('receive.noaddress') as string;
-        let uaddrKind = '';
+        //let uaddrKind = '';
         //let receivers = '';
         if (uaddrs.length > 0) {
           uaddr = uaddrs[oindex].address;
-          uaddrKind = uaddrs[oindex].addressKind;
+          //uaddrKind = uaddrs[oindex].addressKind;
           //receivers = uaddrs[oindex].receivers;
         }
 
@@ -144,7 +144,6 @@ const Receive: React.FunctionComponent<ReceiveProps> = ({
           !!uaAddress && (
             <SingleAddress
               address={uaddr}
-              addressKind={uaddrKind}
               index={oindex}
               total={uaddrs.length}
               prev={() => {
@@ -159,10 +158,10 @@ const Receive: React.FunctionComponent<ReceiveProps> = ({
       }
       case 'zaddr': {
         let zaddr = translate('receive.noaddress') as string;
-        let zaddrKind = '';
+        //let zaddrKind = '';
         if (zaddrs.length > 0) {
           zaddr = zaddrs[zindex].address;
-          zaddrKind = zaddrs[zindex].addressKind;
+          //zaddrKind = zaddrs[zindex].addressKind;
         }
 
         return (
@@ -171,7 +170,6 @@ const Receive: React.FunctionComponent<ReceiveProps> = ({
           !!uaAddress && (
             <SingleAddress
               address={zaddr}
-              addressKind={zaddrKind}
               index={zindex}
               total={zaddrs.length}
               prev={() => {
@@ -186,10 +184,10 @@ const Receive: React.FunctionComponent<ReceiveProps> = ({
       }
       case 'taddr': {
         let taddr = translate('receive.noaddress') as string;
-        let taddrKind = '';
+        //let taddrKind = '';
         if (taddrs.length > 0) {
           taddr = taddrs[tindex].address;
-          taddrKind = taddrs[tindex].addressKind;
+          //taddrKind = taddrs[tindex].addressKind;
         }
 
         return (
@@ -198,7 +196,6 @@ const Receive: React.FunctionComponent<ReceiveProps> = ({
           !!uaAddress && (
             <SingleAddress
               address={taddr}
-              addressKind={taddrKind}
               index={tindex}
               total={taddrs.length}
               prev={() => {
