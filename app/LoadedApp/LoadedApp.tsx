@@ -1511,6 +1511,7 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
               <AddressBook
                 closeModal={() => this.setState({ addressBookModalVisible: false, addressBookCurrentAddress: '' })}
                 setAddressBook={this.setAddressBook}
+                setSendPageState={this.setSendPageState}
               />
             </Suspense>
           </Modal>
