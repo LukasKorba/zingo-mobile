@@ -123,5 +123,7 @@ export default interface AppStateLoaded {
   restartApp: (s: any) => void;
   someUnconfirmed: boolean;
 
+  debugMode: boolean;
+
   // eslint-disable-next-line semi
 }

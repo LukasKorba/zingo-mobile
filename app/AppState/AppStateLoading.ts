@@ -50,5 +50,7 @@ export default interface AppStateLoading {
 
   firstLaunchingMessage: boolean;
 
+  debugMode: boolean;
+
   // eslint-disable-next-line semi
 }

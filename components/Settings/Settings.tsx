@@ -35,6 +35,7 @@ type SettingsProps = {
   set_sendAll_option: (name: 'sendAll', value: boolean) => Promise<void>;
   set_privacy_option: (name: 'privacy', value: boolean) => Promise<void>;
   set_mode_option: (name: 'mode', value: string) => Promise<void>;
+  set_debugMode_option: (name: 'debugMode', value: boolean) => Promise<void>;
 };
 
 type Options = {
@@ -50,6 +51,7 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
   set_sendAll_option,
   set_privacy_option,
   set_mode_option,
+  set_debugMode_option,
   closeModal,
 }) => {
   const context = useContext(ContextAppLoaded);
@@ -62,6 +64,7 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
     sendAll: sendAllContext,
     privacy: privacyContext,
     mode: modeContext,
+    debugMode: debugModeContext,
     netInfo,
     addLastSnackbar,
   } = context;
@@ -103,6 +106,12 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
     MODES = modesArray as Options[];
   }
 
+  const debugModesArray = translate('settings.debugmodes');
+  let DEBUGMODES: Options[] = [];
+  if (typeof sendAllsArray === 'object') {
+    DEBUGMODES = debugModesArray as Options[];
+  }
+
   const { colors } = useTheme() as unknown as ThemeType;
 
   const [memos, setMemos] = useState(walletSettings.download_memos);
@@ -114,6 +123,7 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
   const [sendAll, setSendAll] = useState(sendAllContext);
   const [privacy, setPrivacy] = useState(privacyContext);
   const [mode, setMode] = useState(modeContext);
+  const [debugMode, setDebugMode] = useState(debugModeContext);
   const [customIcon, setCustomIcon] = useState(farCircle);
   const [disabled, setDisabled] = useState<boolean>();
   const [titleViewHeight, setTitleViewHeight] = useState(0);
@@ -167,7 +177,8 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
       languageContext === language &&
       sendAllContext === sendAll &&
       privacyContext === privacy &&
-      modeContext === mode
+      modeContext === mode &&
+      debugModeContext === debugMode
     ) {
       addLastSnackbar({ message: translate('settings.nochanges') as string, type: 'Primary' });
       return;
@@ -257,6 +268,9 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
     }
     if (modeContext !== mode) {
       await set_mode_option('mode', mode);
+    }
+    if (debugModeContext !== debugMode) {
+      await set_debugMode_option('debugMode', debugMode);
     }
 
     // I need a little time in this modal because maybe the wallet cannot be open with the new server
@@ -580,6 +594,20 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
                 String,
                 memos,
                 'memo',
+              )}
+            </View>
+
+            <View style={{ display: 'flex', margin: 10 }}>
+              <BoldText>{translate('settings.debugmode-title') as string}</BoldText>
+            </View>
+
+            <View style={{ display: 'flex', marginLeft: 25 }}>
+              {optionsRadio(
+                DEBUGMODES,
+                setDebugMode as React.Dispatch<React.SetStateAction<string | boolean>>,
+                Boolean,
+                debugMode,
+                'debugMode',
               )}
             </View>
           </>

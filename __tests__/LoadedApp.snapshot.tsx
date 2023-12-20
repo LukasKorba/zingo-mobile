@@ -126,6 +126,7 @@ describe('Component LoadedApp - test', () => {
       date: 0,
     };
     const readOnly = false;
+    const debugMode = false;
     const receive = render(
       <LoadedAppClass
         navigation={navigationMock}
@@ -140,6 +141,7 @@ describe('Component LoadedApp - test', () => {
         mode={mode}
         background={background}
         readOnly={readOnly}
+        debugMode={debugMode}
       />,
     );
     expect(receive.toJSON()).toMatchSnapshot();

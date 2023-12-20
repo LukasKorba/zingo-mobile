@@ -99,6 +99,7 @@ export default function LoadedApp(props: LoadedAppProps) {
   const [privacy, setPrivacy] = useState<boolean>(false);
   const [mode, setMode] = useState<'basic' | 'advanced'>('basic');
   const [background, setBackground] = useState<BackgroundType>({ batches: 0, date: 0 });
+  const [debugMode, setDebugMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const file = useMemo(
     () => ({
@@ -137,7 +138,8 @@ export default function LoadedApp(props: LoadedAppProps) {
       // for testing
       //await delay(5000);
 
-      if (settings.language) {
+
+      if (settings.language === 'en' || settings.language === 'es') {
         setLanguage(settings.language);
         i18n.locale = settings.language;
         //console.log('apploaded settings', settings.language, settings.currency);
@@ -151,7 +153,7 @@ export default function LoadedApp(props: LoadedAppProps) {
         await SettingsFileImpl.writeSettings('language', lang);
         //console.log('apploaded NO settings', languageTag);
       }
-      if (settings.currency) {
+      if (settings.currency === '' || settings.currency === 'USD') {
         setCurrency(settings.currency);
       } else {
         await SettingsFileImpl.writeSettings('currency', currency);
@@ -161,20 +163,25 @@ export default function LoadedApp(props: LoadedAppProps) {
       } else {
         await SettingsFileImpl.writeSettings('server', server);
       }
-      if (settings.sendAll) {
+      if (settings.sendAll === true || settings.sendAll === false) {
         setSendAll(settings.sendAll);
       } else {
         await SettingsFileImpl.writeSettings('sendAll', sendAll);
       }
-      if (settings.privacy) {
+      if (settings.privacy === true || settings.privacy === false) {
         setPrivacy(settings.privacy);
       } else {
         await SettingsFileImpl.writeSettings('privacy', privacy);
       }
-      if (settings.mode) {
+      if (settings.mode === 'basic' || settings.mode === 'advanced') {
         setMode(settings.mode);
       } else {
         await SettingsFileImpl.writeSettings('mode', mode);
+      }
+      if (settings.debugMode === true || settings.debugMode === false) {
+        setDebugMode(settings.debugMode);
+      } else {
+        await SettingsFileImpl.writeSettings('debugMode', debugMode);
       }
 
       // reading background task info
@@ -219,6 +226,7 @@ export default function LoadedApp(props: LoadedAppProps) {
         mode={mode}
         background={background}
         readOnly={readOnly}
+        debugMode={debugMode}
       />
     );
   }
@@ -237,6 +245,7 @@ type LoadedAppClassProps = {
   mode: 'basic' | 'advanced';
   background: BackgroundType;
   readOnly: boolean;
+  debugMode: boolean;
 };
 
 export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoaded> {
@@ -266,6 +275,7 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
       setBackgroundError: this.setBackgroundError,
       addLastSnackbar: this.addLastSnackbar,
       restartApp: this.navigateToLoadingApp,
+      debugMode: props.debugMode,
     };
 
     this.rpc = new RPC(
@@ -948,6 +958,16 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
     this.rpc.fetchWalletSettings();
   };
 
+  set_debugMode_option = async (name: 'debugMode', value: boolean): Promise<void> => {
+    await SettingsFileImpl.writeSettings(name, value);
+    this.setState({
+      debugMode: value as boolean,
+    });
+
+    // Refetch the settings to update
+    this.rpc.fetchWalletSettings();
+  };
+
   navigateToLoadingApp = async (state: any) => {
     const { navigation } = this.props;
 
@@ -1284,6 +1304,7 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
                 set_sendAll_option={this.set_sendAll_option}
                 set_privacy_option={this.set_privacy_option}
                 set_mode_option={this.set_mode_option}
+                set_debugMode_option={this.set_debugMode_option}
               />
             </Suspense>
           </Modal>

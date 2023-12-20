@@ -90,6 +90,7 @@ export const defaultAppStateLoaded: AppStateLoaded = {
   addLastSnackbar: () => {},
   restartApp: () => {},
   someUnconfirmed: false,
+  debugMode: false,
 };
 
 export const ContextAppLoaded = React.createContext(defaultAppStateLoaded);

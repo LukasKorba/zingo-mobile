@@ -14,6 +14,7 @@ export default class SettingsFileClass {
   // - '': means the prior version doesn't have this field in settings
   // - null: means is a fresh install
   // - string: means it have a normal value
+  debugMode: boolean;
 
   constructor(
     server: ServerType,
@@ -25,6 +26,7 @@ export default class SettingsFileClass {
     firstInstall: boolean,
     basicFirstViewSeed: boolean,
     version: string,
+    debugMode: boolean,
   ) {
     this.server = server;
     this.currency = currency;
@@ -35,5 +37,6 @@ export default class SettingsFileClass {
     this.firstInstall = firstInstall;
     this.basicFirstViewSeed = basicFirstViewSeed;
     this.version = version;
+    this.debugMode = debugMode;
   }
 }

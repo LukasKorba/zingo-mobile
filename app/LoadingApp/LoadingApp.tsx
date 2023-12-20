@@ -73,6 +73,7 @@ export default function LoadingApp(props: LoadingAppProps) {
   const [mode, setMode] = useState<'basic' | 'advanced'>('advanced'); // by default advanced
   const [background, setBackground] = useState<BackgroundType>({ batches: 0, date: 0 });
   const [firstLaunchingMessage, setFirstLaunchingMessage] = useState<boolean>(false);
+  const [debugMode, setDebugMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const file = useMemo(
     () => ({
@@ -166,6 +167,11 @@ export default function LoadingApp(props: LoadingAppProps) {
 
       // for testing
       //await delay(5000);
+      if (settings.debugMode === true || settings.debugMode === false) {
+        setDebugMode(settings.debugMode);
+      } else {
+        await SettingsFileImpl.writeSettings('debugMode', debugMode);
+      }
 
       // reading background task info
       if (Platform.OS === 'ios') {
@@ -208,6 +214,7 @@ export default function LoadingApp(props: LoadingAppProps) {
         mode={mode}
         background={background}
         firstLaunchingMessage={firstLaunchingMessage}
+        debugMode={debugMode}
       />
     );
   }
@@ -226,6 +233,7 @@ type LoadingAppClassProps = {
   mode: 'basic' | 'advanced';
   background: BackgroundType;
   firstLaunchingMessage: boolean;
+  debugMode: boolean;
 };
 
 export class LoadingAppClass extends Component<LoadingAppClassProps, AppStateLoading> {
@@ -265,6 +273,7 @@ export class LoadingAppClass extends Component<LoadingAppClassProps, AppStateLoa
       actionButtonsDisabled: !netInfo.isConnected ? true : false,
       addLastSnackbar: this.addLastSnackbar,
       firstLaunchingMessage: props.firstLaunchingMessage,
+      debugMode: props.debugMode,
     };
 
     this.dim = {} as EmitterSubscription;

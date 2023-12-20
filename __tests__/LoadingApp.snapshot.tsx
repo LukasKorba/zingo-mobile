@@ -126,6 +126,7 @@ describe('Component LoadingApp - test', () => {
       date: 0,
     };
     const firstLaunchingMessage = false;
+    const debugMode = false;
     const receive = render(
       <LoadingAppClass
         navigation={navigationMock}
@@ -140,6 +141,7 @@ describe('Component LoadingApp - test', () => {
         mode={mode}
         background={background}
         firstLaunchingMessage={firstLaunchingMessage}
+        debugMode={debugMode}
       />,
     );
     expect(receive.toJSON()).toMatchSnapshot();
