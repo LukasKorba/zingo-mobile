@@ -216,7 +216,8 @@
     "mode": "Modo: ",
     "value-chain_name-main": "Mainnet",
     "value-chain_name-test": "Testnet",
-    "value-chain_name-regtest": "Regtest"
+    "value-chain_name-regtest": "Regtest",
+    "keeppressing": "Sigue presionando para acceder a la configuración del modo de depuración."
   },
   "info": {
     "version": "Versión",

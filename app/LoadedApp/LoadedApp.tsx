@@ -1155,7 +1155,7 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
             <Text>Loading...</Text>
           </View>
         }>
-        <Menu onItemSelected={this.onMenuItemSelected} />
+        <Menu onItemSelected={this.onMenuItemSelected} set_debugMode_option={this.set_debugMode_option} />
       </Suspense>
     );
 

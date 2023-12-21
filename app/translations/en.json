@@ -216,7 +216,8 @@
     "mode": "Mode: ",
     "value-chain_name-main": "Mainnet",
     "value-chain_name-test": "Testnet",
-    "value-chain_name-regtest": "Regtest"
+    "value-chain_name-regtest": "Regtest",
+    "keeppressing": "Keep Pressing to access to the debug mode setting"
   },
   "info": {
     "version": "Version",
