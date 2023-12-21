@@ -61,6 +61,8 @@ export const defaultAppStateLoaded: AppStateLoaded = {
   syncReportModalVisible: false,
   poolsModalVisible: false,
   insightModalVisible: false,
+  issueReportModalVisible: false,
+
   newServer: {} as ServerType,
   uaAddress: '',
 
@@ -91,6 +93,9 @@ export const defaultAppStateLoaded: AppStateLoaded = {
   restartApp: () => {},
   someUnconfirmed: false,
   debugMode: false,
+  syncingStatusMoreInfoOnClick: () => {},
+  poolsMoreInfoOnClick: () => {},
+  issueReportMoreInfoOnClick: () => {},
 };
 
 export const ContextAppLoaded = React.createContext(defaultAppStateLoaded);

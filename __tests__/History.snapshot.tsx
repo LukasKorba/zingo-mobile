@@ -174,8 +174,6 @@ describe('Component History - test', () => {
         <History
           doRefresh={onFunction}
           toggleMenuDrawer={onFunction}
-          poolsMoreInfoOnClick={onFunction}
-          syncingStatusMoreInfoOnClick={onFunction}
           setZecPrice={onFunction}
           setComputingModalVisible={onFunction}
           set_privacy_option={onFunction}
@@ -199,8 +197,6 @@ describe('Component History - test', () => {
         <History
           doRefresh={onFunction}
           toggleMenuDrawer={onFunction}
-          poolsMoreInfoOnClick={onFunction}
-          syncingStatusMoreInfoOnClick={onFunction}
           setZecPrice={onFunction}
           setComputingModalVisible={onFunction}
           set_privacy_option={onFunction}

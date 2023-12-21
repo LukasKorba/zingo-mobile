@@ -58,6 +58,7 @@ import Snackbars from '../../components/Components/Snackbars';
 import SnackbarType from '../AppState/types/SnackbarType';
 import { RPCSeedType } from '../rpc/types/RPCSeedType';
 import { Launching } from '../LoadingApp';
+import IssueReport from '../../components/IssueReport';
 
 const History = React.lazy(() => import('../../components/History'));
 const Send = React.lazy(() => import('../../components/Send'));
@@ -276,6 +277,9 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
       addLastSnackbar: this.addLastSnackbar,
       restartApp: this.navigateToLoadingApp,
       debugMode: props.debugMode,
+      syncingStatusMoreInfoOnClick: this.syncingStatusMoreInfoOnClick,
+      poolsMoreInfoOnClick: this.poolsMoreInfoOnClick,
+      issueReportMoreInfoOnClick: this.issueReportMoreInfoOnClick,
     };
 
     this.rpc = new RPC(
@@ -472,6 +476,7 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
       syncReportModalVisible: false,
       poolsModalVisible: false,
       insightModalVisible: false,
+      issueReportModalVisible: false,
     });
   };
 
@@ -1105,6 +1110,10 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
     this.setState({ poolsModalVisible: true });
   };
 
+  issueReportMoreInfoOnClick = async () => {
+    this.setState({ issueReportModalVisible: true });
+  };
+
   setBackgroundError = (title: string, error: string) => {
     this.setState({ backgroundError: { title, error } });
   };
@@ -1132,6 +1141,7 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
       syncReportModalVisible,
       poolsModalVisible,
       insightModalVisible,
+      issueReportModalVisible,
       settingsModalVisible,
       computingModalVisible,
       rescanModalVisible,
@@ -1492,6 +1502,21 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
             </Suspense>
           </Modal>
 
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={issueReportModalVisible}
+            onRequestClose={() => this.setState({ issueReportModalVisible: false })}>
+            <Suspense
+              fallback={
+                <View>
+                  <Text>{translate('loading') as string}</Text>
+                </View>
+              }>
+              <IssueReport from={'LoadedApp'} closeModal={() => this.setState({ issueReportModalVisible: false })} />
+            </Suspense>
+          </Modal>
+
           <Snackbars snackbars={snackbars} removeFirstSnackbar={this.removeFirstSnackbar} translate={translate} />
 
           {this.state.mode !== 'basic' ||
@@ -1530,8 +1555,6 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
                       <History
                         doRefresh={this.doRefresh}
                         toggleMenuDrawer={this.toggleMenuDrawer}
-                        syncingStatusMoreInfoOnClick={this.syncingStatusMoreInfoOnClick}
-                        poolsMoreInfoOnClick={this.poolsMoreInfoOnClick}
                         setZecPrice={this.setZecPrice}
                         setComputingModalVisible={this.setComputingModalVisible}
                         set_privacy_option={this.set_privacy_option}
@@ -1563,8 +1586,6 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
                             clearToAddr={this.clearToAddr}
                             setSendProgress={this.setSendProgress}
                             toggleMenuDrawer={this.toggleMenuDrawer}
-                            syncingStatusMoreInfoOnClick={this.syncingStatusMoreInfoOnClick}
-                            poolsMoreInfoOnClick={this.poolsMoreInfoOnClick}
                             setZecPrice={this.setZecPrice}
                             setComputingModalVisible={this.setComputingModalVisible}
                             set_privacy_option={this.set_privacy_option}
@@ -1588,7 +1609,6 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
                       <Receive
                         setUaAddress={this.setUaAddress}
                         toggleMenuDrawer={this.toggleMenuDrawer}
-                        syncingStatusMoreInfoOnClick={this.syncingStatusMoreInfoOnClick}
                         set_privacy_option={this.set_privacy_option}
                         setUfvkViewModalVisible={this.setUfvkViewModalVisible}
                       />
@@ -1620,7 +1640,6 @@ export class LoadedAppClass extends Component<LoadedAppClassProps, AppStateLoade
                       <Receive
                         setUaAddress={this.setUaAddress}
                         toggleMenuDrawer={this.toggleMenuDrawer}
-                        syncingStatusMoreInfoOnClick={this.syncingStatusMoreInfoOnClick}
                         set_privacy_option={this.set_privacy_option}
                         setUfvkViewModalVisible={this.setUfvkViewModalVisible}
                       />

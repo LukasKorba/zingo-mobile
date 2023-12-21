@@ -35,8 +35,6 @@ type SendProps = {
   setSendProgress: (progress: SendProgressClass) => void;
   toggleMenuDrawer: () => void;
   setComputingModalVisible: (visible: boolean) => void;
-  syncingStatusMoreInfoOnClick: () => void;
-  poolsMoreInfoOnClick: () => void;
   setZecPrice: (p: number, d: number) => void;
   set_privacy_option: (name: 'privacy', value: boolean) => Promise<void>;
   setPoolsToShieldSelectSapling: (v: boolean) => void;
@@ -50,8 +48,6 @@ const Send: React.FunctionComponent<SendProps> = ({
   setSendProgress,
   toggleMenuDrawer,
   setComputingModalVisible,
-  syncingStatusMoreInfoOnClick,
-  poolsMoreInfoOnClick,
   setZecPrice,
   set_privacy_option,
   setPoolsToShieldSelectSapling,
@@ -73,6 +69,7 @@ const Send: React.FunctionComponent<SendProps> = ({
     addLastSnackbar,
     mode,
     someUnconfirmed,
+    poolsMoreInfoOnClick,
   } = context;
   const { colors } = useTheme() as unknown as ThemeType;
   const [qrcodeModalVisble, setQrcodeModalVisible] = useState(false);
@@ -489,8 +486,6 @@ const Send: React.FunctionComponent<SendProps> = ({
             setTitleViewHeight(height);
           }}>
           <Header
-            poolsMoreInfoOnClick={poolsMoreInfoOnClick}
-            syncingStatusMoreInfoOnClick={syncingStatusMoreInfoOnClick}
             toggleMenuDrawer={toggleMenuDrawer}
             setZecPrice={setZecPrice}
             title={translate('send.title') as string}

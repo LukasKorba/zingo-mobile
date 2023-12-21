@@ -95,6 +95,7 @@ export default interface AppStateLoaded {
   syncReportModalVisible: boolean;
   poolsModalVisible: boolean;
   insightModalVisible: boolean;
+  issueReportModalVisible: boolean;
 
   newServer: ServerType;
 
@@ -124,6 +125,10 @@ export default interface AppStateLoaded {
   someUnconfirmed: boolean;
 
   debugMode: boolean;
+
+  syncingStatusMoreInfoOnClick: () => void;
+  poolsMoreInfoOnClick: () => void;
+  issueReportMoreInfoOnClick: () => void;
 
   // eslint-disable-next-line semi
 }
