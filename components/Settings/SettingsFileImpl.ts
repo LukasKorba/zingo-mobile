@@ -29,7 +29,8 @@ export default class SettingsFileImpl {
      
       | 'basicFirstViewSeed'
       | 'version'
-      | 'debugMode',
+      | 'debugMode'
+      | 'firstDebugMode',
     value: string | boolean | ServerType,
   ) {
     const fileName = await this.getFileName();
@@ -84,10 +85,15 @@ export default class SettingsFileImpl {
         // from some version before.
         settings.version = '';
       }
+      if (!settings.hasOwnProperty('debugMode')) {
+        // if this property doesn't exists the App need to know
+        // about the user choice about debug mode.
+        settings.firstDebugMode = true;
+      }
       return settings;
     } catch (err) {
-      // The File doesn't exist, so return nothing
-      // Here I know 100% it is a fresh install or the user cleaned the device staorage
+      // The File doesn't exist, so return a flag saying if this is a first install.
+      // Here I know 100% it is a fresh install or the user cleaned the device storage
       console.log('settings read file:', err);
       const settings: SettingsFileClass = { firstInstall: true, version: null } as SettingsFileClass;
       return settings;
