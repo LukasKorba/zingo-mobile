@@ -139,7 +139,6 @@ export default function LoadedApp(props: LoadedAppProps) {
       // for testing
       //await delay(5000);
 
-
       if (settings.language === 'en' || settings.language === 'es') {
         setLanguage(settings.language);
         i18n.locale = settings.language;
